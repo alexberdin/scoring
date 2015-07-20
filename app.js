@@ -1,3 +1,35 @@
+/**
+PACKAGE LIST
+
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+iron:router
+sacha:spin
+accounts-password
+ian:bootstrap-3
+ian:accounts-ui-bootstrap-3
+dbarrett:dropzonejs
+aldeed:autoform
+aldeed:collection2
+aldeed:autoform-select2
+natestrauser:select2
+zimme:select2-bootstrap3-css
+ongoworks:security
+meteorhacks:fast-render
+multiply:iron-router-progress
+dburles:collection-helpers
+accounts-base
+alanning:roles
+fortawesome:fontawesome
+yogiben:admin
+fezvrasta:bootstrap-material-design
+
+*/
+
 ////// COLLECTIONS  /////////////
  
 ScoringProject = new Meteor.Collection('scoringProject');

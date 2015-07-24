@@ -15,12 +15,14 @@
         </button>
     </div>
     <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">            
-          <li><a class="" href="{{pathFor 'addScoringProject'}}">Создать проект</a></li>
-          <li><a class="" href="{{pathFor 'addScoringQuestion'}}">Создать вопрос</a></li>
-          <li><a class="" href="{{pathFor 'scoringQuestionList'}}">Список вопросов</a></li>
-          <li><a class="" href="{{pathFor 'scoringProjectList'}}">Список проектов</a></li>
-          <li><a class="" href="/admin">Admin</a></li>
+        <ul class="nav navbar-nav">
+            {{#if currentUser}}
+                  <li><a class="" href="{{pathFor 'addScoringProject'}}">Создать проект</a></li>
+                  <li><a class="" href="{{pathFor 'addScoringQuestion'}}">Создать вопрос</a></li>
+                  <li><a class="" href="{{pathFor 'scoringQuestionList'}}">Список вопросов</a></li>
+                  <li><a class="" href="{{pathFor 'scoringProjectList'}}">Список проектов</a></li>
+                  <li><a class="" href="/admin">Admin</a></li>
+            {{/if}}
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="##"></a></li>
@@ -90,14 +92,13 @@
   <br>
   
   {{#each structure.questions}}
-<!--       <p>{{questionId}}</p> -->
       {{>scoringPassItem}}
   {{/each}}
   
   <br>
   <br>
   <div class=row>
-  <button type="button" id="scoreResultButton" class="btn btn-success btn-lg">Дальше</button>
+        <button type="button" id="scoreResultButton" class="btn btn-success btn-lg">Дальше</button>
   </div>
   <br>
   
@@ -121,7 +122,8 @@
 </template>
 
 
-<template name="resultMessage"> 
+<template name="resultMessage">
+
   <h3>{{resultMessage}}</h3>
   <br>
   <br>
@@ -133,40 +135,44 @@
 <template name="addScoringProject">
 
     <br>
+    {{#if currentUser}}
 
-    {{> quickForm collection="ScoringProject" id="insertScoringProject"
-    type="insert" fields="title,type,humanFrendlyUrl,structure,rangePointMessage"}}
+        {{> quickForm collection="ScoringProject" id="insertScoringProject" type="insert" fields="title,type,humanFrendlyUrl,structure,rangePointMessage"}}
 
 </template>
+
 <template name="addScoringQuestion">
 
     <br>
+    {{#if currentUser}}
 
-    {{> quickForm collection="ScoringQuestion" id="insertScoringQuestion"
-    type="insert" fields="title,adminComment,answers"}}
+        {{> quickForm collection="ScoringQuestion" id="insertScoringQuestion" type="insert" fields="title,adminComment,answers"}}
+
+    {{/if}}
 
 </template>
 
 <template name="scoringQuestionList">
 
     <br>
+    {{#if currentUser}}
 
-    {{> reactiveTable collection=ScoringQuestion fields=fields}}
+        {{> reactiveTable collection=ScoringQuestion fields=fields}}
+
+    {{/if}}
 
 </template>
 
 <template name="scoringProjectList">
 
     <br>
+    {{#if currentUser}}
 
-    {{> reactiveTable collection=scoringProjects  fields=fields}}
+        {{> reactiveTable collection=scoringProjects  fields=fields}}
+
+    {{/if}}
 
 </template>
-
-
-
-
-
 
 
 

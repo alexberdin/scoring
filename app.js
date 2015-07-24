@@ -10,7 +10,7 @@
  iron:router
  sacha:spin
  accounts-password
- //ian:bootstrap-3
+ ian:bootstrap-3
  ian:accounts-ui-bootstrap-3
  dbarrett:dropzonejs
  aldeed:autoform
@@ -28,7 +28,8 @@
  yogiben:admin
  fezvrasta:bootstrap-material-design
  aslagle:reactive-table
- add anti:i18n
+ anti:i18n
+ email
 
 
  persons.php?id=144135
@@ -419,6 +420,35 @@ if (Meteor.isServer) {
     Meteor.publish("ScoringInstance", function () {
         return ScoringInstance.find();
     });
+
+
+
+
+
+
+
+
+
+    Meteor.startup(function () {
+
+
+
+//        smtp = {
+//            username: '',
+//            password: '',
+//            server:   'smtp-relay.gmail.com',
+//            port: 25
+//        }
+//
+//        process.env.MAIL_URL = 'smtp://' + encodeURIComponent(smtp.username) + ':' + encodeURIComponent(smtp.password) + '@' + encodeURIComponent(smtp.server) + ':' + smtp.port;
+
+    });
+
+
+
+
+
+
 }
 
 
@@ -567,5 +597,15 @@ if (Meteor.isClient) {
 
     i18n.setLanguage('ru');
 
+
 }///// END CLIENT //////////////////////////
+
+
+
+
+
+
+
+
+
 

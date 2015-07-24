@@ -416,8 +416,6 @@ if (Meteor.isServer) {
         return ScoringQuestion.find(find, options);
     });
 
-
-
     Meteor.publish("ScoringInstance", function () {
         return ScoringInstance.find();
     });

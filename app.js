@@ -591,17 +591,54 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.localisation.events({
+        'click a': function (event) {
+            Session.set('localisation',$(event.target).attr('id'));
+        }
+    });
+
     Meteor.startup(function () {
 //       NR.setDefaultTemplate("semanticUI");
     });
 
-    i18n.setLanguage('ru');
+    Tracker.autorun(function (c) {
+        i18n.setLanguage(Session.get('localisation'));
+    });
 
+    i18n.map('ru', {
+        projectName: 'Скоринг Онлайн',
+        connectToServer: 'Соединено с сервером',
+        notConnectToServer: 'Соединено с сервером отсутствует',
+        goScoring: 'Пройти Скоринг',
+        createProject: 'Создать проект',
+        createIssue: 'Создать вопрос',
+        listOfQuestions: 'Список вопросов',
+        listOfProjects: 'Список проектов',
+        answerTheQuestionsMakingBankLoan:'Ответьте на вопросы для принятия банком решения о выдаче кредита:',
+        clickOnLinksYouRequirePassScoring:'Кликните по одной из ссылок для прохождения нужного вам скоринга:',
+        toHome:'На главную',
+        next:'Дальше'
+    });
+
+    i18n.map('en', {
+        projectName: 'Scoring Online',
+        connectToServer: 'Connect To Server',
+        notConnectToServer: 'The connection to the server is offline',
+        goScoring: 'Go scoring',
+        createProject: 'Create Project',
+        createIssue: 'Create issue',
+        listOfQuestions: 'List of Questions',
+        listOfProjects: 'List of Projects',
+        answerTheQuestionsMakingBankLoan:'Answer the questions for decision-making on the bank loan:',
+        clickOnLinksYouRequirePassScoring:'Click on one of the links you require to pass the scoring:',
+        toHome:'Home',
+        next:'Next'
+    });
 
 }///// END CLIENT //////////////////////////
 
 
-
+// http://kbs-izdat.com/sovremennoe-sostoyanie-skoringa-v-bankah-ukrainy/
 
 
 

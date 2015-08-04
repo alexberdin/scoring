@@ -422,13 +422,6 @@ if (Meteor.isServer) {
     });
 
 
-
-
-
-
-
-
-
     Meteor.startup(function () {
 
 
@@ -454,6 +447,7 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 
+
     Router.configure({
         layoutTemplate: 'layout',
         loadingTemplate: 'loading',
@@ -467,7 +461,8 @@ if (Meteor.isClient) {
 
     Router.map(function () {
         this.route('Main', {
-            path: '/'
+            path: '/',
+            fastRender: true
 //             disableProgress: true
         });
         this.route('resultMessage', {
@@ -497,7 +492,8 @@ if (Meteor.isClient) {
                     'resultMessage': resultMessage,
                     'project': project
                 };
-            }
+            },
+            fastRender: true
         });
         this.route('scoringPass', {
             path: '/scoringPass/:humanFrendlyUrl',
@@ -506,29 +502,36 @@ if (Meteor.isClient) {
             },
             data: function () {
                 return ScoringProject.findOne({'humanFrendlyUrl': this.params.humanFrendlyUrl});
-            }
+            },
+            fastRender: true
         });
         this.route('addScoringProject',{
-            path: '/addScoringProject'
+            path: '/addScoringProject',
+            fastRender: true
         });
         this.route('addScoringQuestion',{
-            path: '/addScoringQuestion'
+            path: '/addScoringQuestion',
+            fastRender: true
         });
         this.route('scoringQuestionList',{
-            path: '/scoringQuestionList'
+            path: '/scoringQuestionList',
+            fastRender: true
         });
         this.route('scoringProjectList',{
-            path: '/scoringProjectList'
+            path: '/scoringProjectList',
+            fastRender: true
         })
     });
 
     Router.onBeforeAction('loading');
 
-    Router.route('analytics', {
-        path: AdminDashboard.path('analytics'),
-        controller: 'AdminController',
-        onAfterAction: function () {
-            Session.set('admin_title', 'Analytics');
+    Template.layout.helpers({
+        postLayoutView: function() {
+            var routeName = Router.current().route.getName();
+            if(routeName==='scoringPass') {
+                return false;
+            }
+            return true;
         }
     });
 

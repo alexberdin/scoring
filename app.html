@@ -4,6 +4,22 @@
 </head>
 <!-- LAYOUT -->
 <template name="layout">
+    {{#if postLayoutView}}
+        {{> postLayout}}
+    {{else}}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-3 col-md-2"></div>
+                <div class="col-xs-12 col-sm-6 col-md-8">
+                    {{> yield}}
+                </div>
+                <div class="col-xs-3 col-md-2"></div>
+            </div>
+        </div>
+    {{/if}}
+</template>
+
+<template name="postLayout">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="{{pathFor 'Main'}}">{{i18n "projectName"}}</a>
@@ -17,11 +33,11 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {{#if currentUser}}
-                    <li><a class="" href="{{pathFor '/'}}">{{i18n "goScoring"}}</a></li>
-                    <li><a class="" href="{{pathFor 'addScoringProject'}}">{{i18n "createProject"}}</a></li>
-                    <li><a class="" href="{{pathFor 'addScoringQuestion'}}">{{i18n "createIssue"}}</a></li>
-                    <li><a class="" href="{{pathFor 'scoringQuestionList'}}">{{i18n "listOfQuestions"}}</a></li>
-                    <li><a class="" href="{{pathFor 'scoringProjectList'}}">{{i18n "listOfProjects"}}</a></li>
+                <li><a class="" href="{{pathFor '/'}}">{{i18n "goScoring"}}</a></li>
+                <li><a class="" href="{{pathFor 'addScoringProject'}}">{{i18n "createProject"}}</a></li>
+                <li><a class="" href="{{pathFor 'addScoringQuestion'}}">{{i18n "createIssue"}}</a></li>
+                <li><a class="" href="{{pathFor 'scoringQuestionList'}}">{{i18n "listOfQuestions"}}</a></li>
+                <li><a class="" href="{{pathFor 'scoringProjectList'}}">{{i18n "listOfProjects"}}</a></li>
                 {{/if}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -84,11 +100,6 @@
 <!-- END INCLUDES -->
 
 <template name="Main">
-    <!--<br>-->
-    <!--<br>-->
-    <!--<h3>{{i18n "clickOnLinksYouRequirePassScoring"}}</h3>-->
-    <!--<br>-->
-    <!--<br>-->
     <div class=row>
         <div class="col-xs-12 col-sm-6 col-md-8">
             <h2>{{i18n "clickOnLinksYouRequirePassScoring"}}</h2>
@@ -201,6 +212,260 @@
 
     {{/if}}
 
+</template>
+
+
+
+
+
+
+
+
+
+
+<template name="exampleEnglishWords">
+    <div class="col-xs-12 col-sm-6 col-md-8">
+
+        <p> Я открою</p>
+
+        <p>Я открыл</p>
+
+        <p>Ты открываешь?</p>
+
+        <p>Она открывает?</p>
+
+        <p>Ты открыл?</p>
+
+        <p>Ты откроешь?</p>
+
+        <p>Я не буду открывать</p>
+
+        <p>Мы не открывали</p>
+
+        <p>Я закрываю</p>
+
+        <p>Я закрываю</p>
+
+        <p>Я закрою</p>
+
+        <p>Ты закроешь?</p>
+
+        <p>Я не закрою</p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+
+        <p></p>
+    </div>
 </template>
 
 

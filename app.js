@@ -520,6 +520,10 @@ if (Meteor.isClient) {
         this.route('scoringProjectList',{
             path: '/scoringProjectList',
             fastRender: true
+        });
+        this.route('exampleEnglishWords',{
+            path: '/exampleEnglishWords',
+            fastRender: true
         })
     });
 

@@ -30,10 +30,7 @@
  aslagle:reactive-table
  anti:i18n
  email
-
-
- persons.php?id=144135
- persons.php?id=217322
+ peerlibrary:server-autorun
 
  */
 
@@ -41,7 +38,7 @@
 var Func = {
     getReqString: function(label,autoform) {
         return {
-            label: label,
+            label: label || null,
             type: String,
             optional: false,
             autoform: autoform || {}
@@ -51,6 +48,7 @@ var Func = {
     getAFSelect: function(options) {
         return {
             type: "select",
+            firstOption: ' ',
             options: function () {
                 return options;
             }
@@ -70,6 +68,105 @@ var Func = {
     }
 }
 
+
+///// Localisation ///////////////
+
+
+    i18n.map('ru', {
+        siteName: 'Скоринг Онлайн',
+        connectToServer: 'Соединено с сервером',
+        notConnectToServer: 'Соединено с сервером отсутствует',
+        goScoring: 'Пройти Скоринг',
+        createProject: 'Создать проект',
+        createIssue: 'Создать вопрос',
+        listOfQuestions: 'Список вопросов',
+        listOfProjects: 'Список проектов',
+        answerTheQuestionsMakingBankLoan:'Ответьте на вопросы для принятия банком решения о выдаче кредита:',
+        clickOnLinksYouRequirePassScoring:'Кликните по одной из ссылок для прохождения нужного вам скоринга:',
+        toHome:'На главную',
+        next:'Дальше',
+        form:{
+            answersForScoring: 'Вопросы для скоринга:',
+            typeOfDisplay: 'Тип отображения:',
+            deleteConfirm: 'Вы уверены что хотите удалить?'
+        },
+        title:'Название',
+        control: 'Управление',
+        listing:'Листинг',
+        autoload:'Автозагрузка',
+        question:"Вопрос:",
+        selectQuestion: 'Выбрать вопрос:',
+        scoringType: 'Тип скоринга:',
+        relScoringPage: 'Относительный адрес страницы скоринга:',
+        questionStruct: 'Структура вопросов:',
+        commentsForPoints: 'Комментарии для диапазона баллов:',
+        from: 'От:',
+        before: 'До:',
+        commentForRange: 'Комментарий для диапазона:',
+        commentForAdmin: 'Комментарий для администратора:',
+        answers: 'Ответы:',
+        textAnswer: 'Текст ответа:',
+        point: 'Балл:',
+        totalPoints: 'Общий балл:',
+        resCount: 'Результат подсчета:',
+        name: 'Имя:',
+        surname: 'Фамилия:',
+        phone: 'Телефон:',
+        projectName: 'Проект скоринга:',
+        resultComment: 'Комментарий результата:',
+        save: 'Сохранить',
+        test:'Тест'
+    });
+
+    i18n.map('en', {
+        siteName: 'Scoring Online',
+        connectToServer: 'Connect To Server',
+        notConnectToServer: 'The connection to the server is offline',
+        goScoring: 'Go scoring',
+        createProject: 'Create Project',
+        createIssue: 'Create Question',
+        listOfQuestions: 'List of Questions',
+        listOfProjects: 'List of Projects',
+        answerTheQuestionsMakingBankLoan:'Answer the questions for decision-making on the bank loan:',
+        clickOnLinksYouRequirePassScoring:'Click on one of the links you require to pass the scoring:',
+        toHome:'Home',
+        next:'Next',
+        form:{
+            answersForScoring: 'Answers for scoring:',
+            typeOfDisplay: 'Type of Display:',
+            deleteConfirm: 'Are you sure you want to delete?'
+        },
+        title:'Title',
+        control: 'Control',
+        listing:'Listing',
+        autoload:'Autoload',
+        question:"Question:",
+        selectQuestion: 'Select a question:',
+        scoringType: 'Type of scoring:',
+        relScoringPage: 'Relative address of the page scoring:',
+        questionStruct: 'The structure of the questions:',
+        commentsForPoints: 'Comments for range points:',
+        from: 'From:',
+        before: 'Before:',
+        commentForRange: 'Comment for range:',
+        commentForAdmin: 'Comments for the administrator:',
+        answers:'Answers:',
+        textAnswer: 'Text of the answer:',
+        point: 'Point:',
+        totalPoints: 'Total points:',
+        resCount: 'Result Counting:',
+        name: 'Name:',
+        surname: 'Surname:',
+        phone: 'Phone:',
+        projectName: 'Project name:',
+        resultComment: 'Result comment:',
+        save: 'Save',
+        test:'Test'
+    });
+
+//////////////////////////////////
+
+
 ////// COLLECTIONS  /////////////
 
 ScoringProject = new Meteor.Collection('scoringProject');
@@ -78,32 +175,40 @@ ScoringQuestion = new Meteor.Collection('scoringQuestion');
 
 ScoringInstance = new Meteor.Collection('scoringInstance');
 
-
 ScoringProjectStructureSchema = new SimpleSchema({
 
-    type: Func.getReqString("Тип отображения",
-          Func.getAFSelect([
-                    {label: "Листинг", value: "listing"},
-                    {label: "Автозагрузка", value: "listing"}
-                ])
+    type: Func.getReqString(
+        function(){
+            return i18n('form.typeOfDisplay');
+        },
+        Func.getAFSelect([
+            {label: i18n('listing'), value: "listing"},
+            {label: i18n('autoload'), value: "autoload"}
+        ])
     ),
 
 
     questions: {
-        label: "Вопросы для скоринга:",
+        label: function(){
+            return i18n('form.answersForScoring')
+        },
         type: [Object],
         minCount: 1,
         maxCount: 5
     },
 
     'questions.$.questionId': {
-        label: "Вопрос:",
+        label: function(){
+            return i18n('question');
+        },
         type: String,
         optional: true,
         autoform: {
             type: "select",
-            placeholder: "Выбрать вопрос:",
-            firstOption: true,
+            placeholder: function(){
+                return i18n('selectQuestion');
+            },
+            firstOption: ' ',
             options: function () {
                 Meteor.subscribe('ScoringQuestion');
                 var scoringQuestion = ScoringQuestion.find({});
@@ -122,54 +227,73 @@ ScoringProjectSchema = new SimpleSchema({
 
     title: {
         type: String,
-        label: "Название:",
+        label: function(){
+            return i18n('title')+":";
+        },
         max: 200,
         optional: true,
         autoform: {
             afFieldInput: {
-                placeholder:" Название"
+                placeholder: function(){
+                    return " "+i18n('title');
+                }
             }
         }
     },
     type: {
-        label: "Тип скоринга:",
+        label: function(){
+            return i18n('scoringType');
+        },
         type: String,
         optional: true,
         autoform: {
-            type: "select2",
+            type: "select",
+            firstOption: ' ',
             options: function () {
                 return [
-                    {label: "application", value: "application"},
-                    {label: "behavioral", value: "behavioral"}
+                    {label: "Application", value: "application"},
+                    {label: "Behavioral", value: "behavioral"}
                 ];
             }
         }
     },
     humanFrendlyUrl: {
         type: String,
-        label: "Относительный адрес страницы скоринга:",
+        label: function(){
+            return i18n('relScoringPage');
+        },
         max: 200,
         optional: true
     },
     structure: {
-        label: "Структура вопросов:",
+        label: function(){
+            return i18n('questionStruct');
+        },
         type: ScoringProjectStructureSchema,
         optional: false
     },
     rangePointMessage: {
-        label: "Комментарии для диапазона баллов",
+        label: function(){
+            return i18n('commentsForPoints');
+        },
         type: [Object]
     },
     'rangePointMessage.$.from': {
-        label: "От",
+        label: function(){
+            return i18n('from');
+        },
         type: Number
     },
     'rangePointMessage.$.to': {
-        label: "До",
+        label: function(){
+            return i18n('before');
+        },
         type: Number
     },
     'rangePointMessage.$.resultMessage': {
-        label: "Комментарии для диапазона",
+        label: function(){
+            return i18n('commentForRange');
+        },
         type: String
     },
     owner: Func.getOwner()
@@ -181,20 +305,26 @@ ScoringQuestionSchema = new SimpleSchema({
 
     title: {
         type: String,
-        label: "Вопрос:",
+        label: function(){
+            return i18n('question');
+        },
         max: 200,
         optional: false
     },
 
     adminComment: {
         type: String,
-        label: "Комментарий для администратора:",
+        label: function(){
+            return i18n('commentForAdmin');
+        },
         max: 200,
         optional: true
     },
 
     answers: {
-        label: "Ответы:",
+        label: function(){
+            return i18n('answers');
+        },
         type: [Object],
         optional: false,
         minCount: 1,
@@ -202,13 +332,17 @@ ScoringQuestionSchema = new SimpleSchema({
     },
 
     'answers.$.text': {
-        label: "Текст ответа:",
+        label: function(){
+            return i18n('textAnswer');
+        },
         optional: false,
         type: String
     },
     'answers.$.points': {
         type: Number,
-        label: "Балл:",
+        label: function(){
+            return i18n('point');
+        },
         optional: false,
         autoform: {
             afFieldInput: {
@@ -225,18 +359,23 @@ ScoringQuestion.attachSchema(ScoringQuestionSchema);
 ScoringResultSchema = new SimpleSchema({
 
     results: {
-        label: "Результат подсчета:",
+        label: function(){
+            return i18n('resCount');
+        },
         type: [Object],
         minCount: 1,
         maxCount: 5
     },
 
     'results.$.questionId': {
-        label: "Вопрос:",
+        label: function(){
+            return i18n('question');
+        },
         type: String,
         optional: true,
         autoform: {
             type: "select",
+            firstOption: ' ',
             options: function () {
                 Meteor.subscribe('ScoringQuestion');
                 var scoringQuestion = ScoringQuestion.find({});
@@ -250,7 +389,9 @@ ScoringResultSchema = new SimpleSchema({
     },
 
     'results.$.answer': {
-        label: "Ответы:",
+        label: function(){
+            return i18n('answers');
+        },
         type: String,
         optional: true,
         autoform: {
@@ -290,18 +431,24 @@ ScoringInstanceSchema = new SimpleSchema({
     },
     firstname: {
         type: String,
-        label: "Имя:",
+        label: function(){
+            return i18n('name');
+        },
         max: 200,
         optional: false
     },
     lastname: {
         type: String,
-        label: "Фамилия:",
+        label: function(){
+            return i18n('surname');
+        },
         max: 200,
         optional: false
     },
     phone: {
-        label: "Телефон:",
+        label: function(){
+            return i18n('phone');
+        },
         type: String,
         optional: false,
         autoform: {
@@ -322,10 +469,13 @@ ScoringInstanceSchema = new SimpleSchema({
     },
     projectId: {
         type: String,
-        label: "Проект Скоринга:",
+        label: function(){
+            return i18n('projectName');
+        },
         autoform: {
             optional: false,
             type: "select",
+            firstOption: ' ',
             options: function () {
                 Meteor.subscribe('ScoringProject', {}, {});
                 var scoringProjects = ScoringProject.find({});
@@ -339,7 +489,9 @@ ScoringInstanceSchema = new SimpleSchema({
     },
     points: {
         type: Number,
-        label: "Oбщий балл:",
+        label: function(){
+            return i18n('totalPoints');
+        },
         optional: true,
         autoform: {
             afFieldInput: {
@@ -349,7 +501,9 @@ ScoringInstanceSchema = new SimpleSchema({
     },
     resultComment: {
         type: String,
-        label: "Комментарий результата:",
+        label:  function(){
+            return i18n('resultComment');
+        },
         optional: true
     },
     /*answers: {
@@ -421,10 +575,7 @@ if (Meteor.isServer) {
         return ScoringInstance.find();
     });
 
-
     Meteor.startup(function () {
-
-
 
 //        smtp = {
 //            username: '',
@@ -437,13 +588,7 @@ if (Meteor.isServer) {
 
     });
 
-
-
-
-
-
 }
-
 
 if (Meteor.isClient) {
 
@@ -477,8 +622,6 @@ if (Meteor.isClient) {
 
                 var dataProject = ScoringProject.findOne(project);
                 var resultMessage = 'Результат: ';
-
-//               console.log(dataProject);
 
                 if (dataProject.rangePointMessage !== 'undefined') {
                     dataProject.rangePointMessage.forEach(function (obj) {
@@ -521,10 +664,6 @@ if (Meteor.isClient) {
             path: '/scoringProjectList',
             fastRender: true
         });
-        this.route('exampleEnglishWords',{
-            path: '/exampleEnglishWords',
-            fastRender: true
-        })
     });
 
     Router.onBeforeAction('loading');
@@ -553,20 +692,73 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.scoringQuestionList.helpers({
-        ScoringQuestion: function () {
-            Meteor.subscribe('ScoringQuestion', {}, {});
-            return ScoringQuestion.find();
-        },
-        fields: [{key:"title",label:"Название"}]
+    Template.scoringQuestionList.events({
+        'click .reactive-table tbody tr': function (event) {
+            event.preventDefault();
+            if (event.target.id == "deleteQuestion") {
+                if(confirm(i18n('form.deleteConfirm'))){
+                    var selfScoringQuestion = this;
+                    ScoringQuestion.remove(selfScoringQuestion._id)
+                }
+            }
+        }
     });
 
+    Template.scoringQuestionList.helpers({
+        settings: function () {
+            return {
+                collection:ScoringQuestion,
+                rowsPerPage: 10,
+                showFilter: true,
+                fields: [
+                    {key:"title",label:i18n('title')},
+                    {key: "_id", label:i18n('control'),fn: function (value, object) {
+                        return new Spacebars.SafeString(
+                            '<span id="deleteQuestion" class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
+                        );
+                    }}
+                ]
+            };
+        }
+    });
+
+    Template.addScoringQuestion.helpers({
+        ScoringQuestionCollection: ScoringQuestion
+    })
+
+    Template.addScoringProject.helpers({
+        ScoringProjectCollection: ScoringProject
+    })
+
     Template.scoringProjectList.helpers({
-        scoringProjects: function () {
-            Meteor.subscribe('ScoringProject', {}, {});
-            return ScoringProject.find();
-        },
-        fields: [{key:"title",label:"Название"}]
+        settings: function () {
+            return {
+                collection:ScoringProject,
+                rowsPerPage: 10,
+                showFilter: true,
+                fields: [
+                    {key:"title",label:i18n('title')},
+                    {key: "_id", label:i18n('control'),fn: function (value, object) {
+                        return new Spacebars.SafeString(
+                            '<span id="deleteProject" class="glyphicon glyphicon-trash" aria-hidden="true"></span>'
+                        );
+                    }}
+                ]
+            };
+        }
+    });
+
+
+    Template.scoringProjectList.events({
+        'click .reactive-table tbody tr': function (event) {
+            event.preventDefault();
+            if (event.target.id == "deleteProject") {
+                if(confirm(i18n('form.deleteConfirm'))){
+                    var selfScoringProject = this;
+                    ScoringProject.remove(selfScoringProject._id)
+                }
+            }
+        }
     });
 
     Template.scoringPass.events({
@@ -592,6 +784,7 @@ if (Meteor.isClient) {
         }
     });
 
+
     Template.connectionTpl.helpers({
         status: function () {
             return Meteor.status().connected;
@@ -604,42 +797,24 @@ if (Meteor.isClient) {
         }
     });
 
-    Meteor.startup(function () {
-//       NR.setDefaultTemplate("semanticUI");
-    });
-
     Tracker.autorun(function (c) {
         i18n.setLanguage(Session.get('localisation'));
     });
 
-    i18n.map('ru', {
-        projectName: 'Скоринг Онлайн',
-        connectToServer: 'Соединено с сервером',
-        notConnectToServer: 'Соединено с сервером отсутствует',
-        goScoring: 'Пройти Скоринг',
-        createProject: 'Создать проект',
-        createIssue: 'Создать вопрос',
-        listOfQuestions: 'Список вопросов',
-        listOfProjects: 'Список проектов',
-        answerTheQuestionsMakingBankLoan:'Ответьте на вопросы для принятия банком решения о выдаче кредита:',
-        clickOnLinksYouRequirePassScoring:'Кликните по одной из ссылок для прохождения нужного вам скоринга:',
-        toHome:'На главную',
-        next:'Дальше'
-    });
 
-    i18n.map('en', {
-        projectName: 'Scoring Online',
-        connectToServer: 'Connect To Server',
-        notConnectToServer: 'The connection to the server is offline',
-        goScoring: 'Go scoring',
-        createProject: 'Create Project',
-        createIssue: 'Create issue',
-        listOfQuestions: 'List of Questions',
-        listOfProjects: 'List of Projects',
-        answerTheQuestionsMakingBankLoan:'Answer the questions for decision-making on the bank loan:',
-        clickOnLinksYouRequirePassScoring:'Click on one of the links you require to pass the scoring:',
-        toHome:'Home',
-        next:'Next'
+    AutoForm.hooks({
+        insertScoringProject: {
+            onSuccess: function (doc) {
+                Router.go('scoringProjectList');
+                return true;
+            }
+        },
+        insertScoringQuestion: {
+            onSuccess: function (doc) {
+                Router.go('scoringQuestionList');
+                return true;
+            }
+        }
     });
 
 }///// END CLIENT //////////////////////////

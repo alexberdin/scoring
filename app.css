@@ -1,0 +1,9 @@
+.panel-default {
+	clear: both;
+	margin: 20px !important;
+	border-color: #ddd !important;
+}
+
+.btn {
+    padding: 8px 15px !important;
+}

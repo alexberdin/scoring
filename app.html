@@ -22,7 +22,7 @@
 <template name="postLayout">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{pathFor 'Main'}}">{{i18n "projectName"}}</a>
+            <a class="navbar-brand" href="{{pathFor 'Main'}}">{{i18n "siteName"}}</a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -33,13 +33,12 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {{#if currentUser}}
-                <li><a class="" href="{{pathFor '/'}}">{{i18n "goScoring"}}</a></li>
-                <li><a class="" href="{{pathFor 'addScoringProject'}}">{{i18n "createProject"}}</a></li>
-                <li><a class="" href="{{pathFor 'addScoringQuestion'}}">{{i18n "createIssue"}}</a></li>
-                <li><a class="" href="{{pathFor 'scoringQuestionList'}}">{{i18n "listOfQuestions"}}</a></li>
-                <li><a class="" href="{{pathFor 'scoringProjectList'}}">{{i18n "listOfProjects"}}</a></li>
+                    <li><a class="" href="{{pathFor 'Main'}}">{{i18n "goScoring"}}</a></li>
+                    <li><a class="" href="{{pathFor 'addScoringProject'}}">{{i18n "createProject"}}</a></li>
+                    <li><a class="" href="{{pathFor 'addScoringQuestion'}}">{{i18n "createIssue"}}</a></li>
+                    <li><a class="" href="{{pathFor 'scoringQuestionList'}}">{{i18n "listOfQuestions"}}</a></li>
+                    <li><a class="" href="{{pathFor 'scoringProjectList'}}">{{i18n "listOfProjects"}}</a></li>
                 {{/if}}
-                <li><a class="" href="{{pathFor 'exampleEnglishWords'}}">Example of english</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="##"></a></li>
@@ -71,6 +70,9 @@
 <!-- END LAYOUT -->
 
 
+
+
+
 <!-- INCLUDES -->
 <template name="localisation">
     <li><a id="ru" href="##">ru</a></li>
@@ -91,14 +93,23 @@
 
 <template name="connectionTpl">
     {{#if status}}
-    <span class="label label-success" title="{{i18n 'connectToServer'}}">&nbsp;<span class="glyphicon glyphicon-off"
-                                                                                     aria-hidden="true"></span>&nbsp;</span>
+        <span class="label label-success" title="{{i18n 'connectToServer'}}">
+            &nbsp;
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            &nbsp;
+        </span>
     {{else}}
-    <span class="label label-danger" title="{{i18n 'notConnectToServer'}}">&nbsp;<span class="glyphicon glyphicon-off"
-                                                                                       aria-hidden="true"></span>&nbsp;</span>
+        <span class="label label-danger" title="{{i18n 'notConnectToServer'}}">
+            &nbsp;
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            &nbsp;
+        </span>
     {{/if}}
 </template>
 <!-- END INCLUDES -->
+
+
+
 
 <template name="Main">
     <div class=row>
@@ -174,8 +185,19 @@
     <br>
     {{#if currentUser}}
 
-    {{> quickForm collection="ScoringProject" id="insertScoringProject" type="insert"
-    fields="title,type,humanFrendlyUrl,structure,rangePointMessage"}}
+    <!--{{> quickForm collection="ScoringProject" id="insertScoringProject" type="insert"-->
+    <!--fields="title,type,humanFrendlyUrl,structure,rangePointMessage"}}-->
+    {{#autoForm collection=ScoringProjectCollection id="insertScoringProject" type="insert"}}
+
+        {{> afQuickField name='title'}}
+        {{> afQuickField name='type'}}
+        {{> afQuickField name='humanFrendlyUrl'}}
+        {{> afQuickField name='structure'}}
+        {{> afQuickField name='rangePointMessage'}}
+        <div>
+            <button type="submit" class="btn btn-primary">{{i18n "save"}}</button>
+        </div>
+        {{/autoForm}}
 
     {{/if}}
 
@@ -186,8 +208,17 @@
     <br>
     {{#if currentUser}}
 
-    {{> quickForm collection="ScoringQuestion" id="insertScoringQuestion" type="insert"
-    fields="title,adminComment,answers"}}
+    <!--{{> quickForm collection="ScoringQuestion" id="insertScoringQuestion" type="insert"-->
+    <!--fields="title,adminComment,answers"}}-->
+        {{#autoForm collection=ScoringQuestionCollection id="insertScoringQuestion" type="insert"}}
+
+            {{> afQuickField name='title'}}
+            {{> afQuickField name='adminComment'}}
+            {{> afQuickField name='answers'}}
+            <div>
+                <button type="submit" class="btn btn-primary">{{i18n "save"}}</button>
+            </div>
+        {{/autoForm}}
 
     {{/if}}
 
@@ -198,7 +229,7 @@
     <br>
     {{#if currentUser}}
 
-    {{> reactiveTable collection=ScoringQuestion fields=fields}}
+        {{> reactiveTable settings=settings}}
 
     {{/if}}
 
@@ -209,632 +240,8 @@
     <br>
     {{#if currentUser}}
 
-    {{> reactiveTable collection=scoringProjects fields=fields}}
+        {{> reactiveTable settings=settings}}
 
     {{/if}}
 
 </template>
-
-
-
-<template name="exampleEnglishWords">
-
-    <div class="col-xs-12 col-sm-6 col-md-8">
-
-            <br>
-
-            <br>
-
-            <img src="http://www.english-polyglot.com/img/tablica-glagolov-petrova-image-black.gif" alt=""/>
-
-            <br>
-
-            <br>
-
-            <img src="http://www.english-polyglot.com/img/black-tablica-glagola-to-be-petrova-image.gif" alt=""/>
-
-            <br>
-
-            <br>
-
-
-            <pre>
-Утверждение в настоящем времени:
-I am — я есть
-he is — он есть
-she is — она есть
-it is — это
-
-Примеры:
-I am here — я здесь
-he is here — он здесь
-she is here — она здесь
-it is here — это здесь
-
-Множественное число:
-you are — вы есть
-we are — мы есть
-they are — они есть
-
-Примеры использования:
-we are here — мы здесь
-you are here — вы здесь
-they are here — они здесь
-            </pre>
-
-            <br>
-
-            <br>
-
-            <table>
-                <tr>
-                    <td>
-                         <pre>
-Кто?
-I  — я
-you  — ты
-he  — он
-she  — она
-we  — мы
-they  — они
-                        </pre>
-                    </td>
-                    <td>
-                        <pre>
-Кого? Кому?
-me  — меня, мне
-you  — тебя, тебе, вас, вам
-him  — его, ему
-her  — её, ей
-us  — нас, нам
-them  — их, им
-                        </pre>
-                    </td>
-                    <td>
-                        <pre>
-Чей? Чьё?
-my - мой, моё
-your - твой, Ваш
-his - его
-her - её
-our - наш, наше
-their - их
-                        </pre>
-                    </td>
-                </tr>
-            </table>
-
-            <br>
-
-            <br>
-
-            <table>
-                <tr>
-                    <td>
-                         <pre>
-what  — что, какой
-who  — кто
-where  — где, куда
-when  — когда
-why  — почему, зачем
-how  — как
-                        </pre>
-                    </td>
-                </tr>
-            </table>
-
-            <br>
-
-            <br>
-
-            <pre>
-                abide	abode (abided)	abode (abided)	пребывать, терпеть, соблюдать
-arise	arose	arisen	возникать, подниматься
-awake	awoke	awoken	будить
-be	was (were)	been	быть
-bear	bore	born	нести, рожать
-beat	beat	beaten	бить
-become	became	become	становиться
-begin	began	begun	начинать
-bend	bent	bent	гнуть
-bet	bet	bet	держать пари
-bid	bade (bid)	bidden (bid)	предлагать цену
-bind	bound	bound	связывать
-bite	bit	bitten	кусаться
-bleed	bled	bled	кровоточить
-blend	blended (blent)	blended (blent)	смешивать
-bless	blessed (blest)	blessed (blest)	благословлять
-blow	blew	blown	дуть
-break	broke	broken	ломать
-breed	bred	bred	размножаться
-bring	brought	brought	приносить
-build	built	built	строить
-burn	burnt (burned)	burnt (burned)	гореть, жечь
-burst	burst (bursted)	burst (bursted)	взрываться
-buy	bought	bought	покупать
-cast	cast	cast	бросать, проводить кастинг
-catch	caught	caught	ловить
-choose	chose	chosen	выбирать
-cling	clung	clung	цепляться
-come	came	come	приходить
-cost	cost	cost	стоить
-creep	crept	crept	ползти
-cut	cut	cut	резать
-dare	durst (dared)	dared	(по)сметь
-deal	dealt	dealt	вести дела
-dig	dug	dug	копать
-do	did	done	делать
-draw	drew	drawn	рисовать, тянуть
-dream	dreamed (dreamt)	dreamed (dreamt)	мечтать
-drink	drank	drunk	пить
-drive	drove	driven	водить автомобиль
-dwell	dwelt	dwelt	обитать, останавливаться
-eat	ate	eaten	есть
-fall	fell	fallen	падать
-feed	fed	fed	кормить
-feel	felt	felt	чувствовать
-fight	fought	fought	бороться
-find	found	found	находить
-flee	fled	fled	сбежать
-fling	flung	flung	бросаться
-fly	flew	flown	летать
-forbid	forbade	forbidden	запрещать
-forget	forgot	forgotten	забывать
-forgive	forgave	forgiven	простить
-freeze	froze	frozen	замораживать
-get	got	got (gotten)	получать
-give	gave	given	давать
-go	went	gone	идти
-grind	ground	ground	точить, молоть
-grow	grew	grown	расти
-hang	hung	hung	висеть
-have (has)	had	had	иметь
-hear	heard	heard	слышать
-heave	heaved (hove)	heaved (hove)	поднимать
-hew	hewed	hewn (hewed)	разрубать
-hide	hid	hidden	прятать
-hit	hit	hit	попадать, ударять
-hold	held	held	держать
-hurt	hurt	hurt	причинять боль
-keep	kept	kept	содержать, поддерживать
-kneel	knelt (kneeled)	knelt (kneeled)	становиться на колени
-knit	knitted (knit)	knitted (knit)	вязать
-know	knew	known	знать
-lay	laid	laid	класть, стелить
-lead	led	led	вести, лидировать
-lean	leant (leaned)	leant (leaned)	наклоняться, прислоняться
-leap	leapt (leaped)	leapt (leaped)	прыгать
-learn	learnt (learned)	learnt (learned)	учиться, узнавать
-leave	left	left	покидать, оставлять
-lend	lent	lent	давать взаймы
-let	let	let	позволять
-lie	lay	lain	лежать
-light	lit	lit	зажигать, освещать
-lose	lost	lost	терять
-make	made	made	делать, мастерить
-mean	meant	meant	значить
-meet	met	met	встречать, знакомиться
-mow	mowed	mown	косить
-pay	paid	paid	платить
-put	put	put	класть, ставить
-read	read	read	читать
-rend	rent	rent	отрывать, разлучать
-rid	rid (ridded)	rid (ridded)	освобождать, избавлять
-ride	rode	ridden	ездить верхом
-ring	rang	rung	звонить
-rise	rose	risen	восходить, подниматься
-run	ran	run	бежать
-saw	sawed	sawn (sawed)	пилить
-say	said	said	сказать
-see	saw	seen	видеть
-seek	sought	sought	искать
-sell	sold	sold	продавать
-send	sent	sent	посылать
-set	set	set	сажать, устанавливать
-sew	sewed	sewn (sewed)	шить
-shake	shook	shaken	трясти
-shed	shed	shed	проливать
-shine	shone	shone	светить, сиять
-shoot	shot	shot	стрелять
-show	showed	shown	показывать
-shrink	shrank	shrunk	сжиматься
-shut	shut	shut	закрывать, затворять
-sing	sang	sung	петь
-sink	sank	sunk	погружаться, опускаться
-sit	sat	sat	сидеть
-slay	slew	slain	убивать
-sleep	slept	slept	спать
-slide	slid	slid	скользить
-smell	smelt	smelt	пахнуть, нюхать
-smite	smote	smitten	разбить, сразить
-sow	sowed	sown (sowed)	сеять
-speak	spoke	spoken	говорить
-speed	sped (speeded)	sped (speeded)	мчаться
-spell	spelt (spelled)	spelt (spelled)	читать по буквам
-spend	spent	spent	тратить, проводить
-spill	spilt (spilled)	spilt (spilled)	разлить
-spin	spun	spun	крутить, прясть
-spit	spat	spat	плевать
-split	split	split	разделять, раскалывать
-spoil	spoilt (spoiled)	spoilt (spoiled)	портить
-spread	spread	spread	развернуть, распространять
-spring	sprang	sprung	прыгать, скакать
-stand	stood	stood	стоять
-steal	stole	stolen	воровать
-stick	stuck	stuck	втыкать, прилепить
-sting	stung	stung	жалить
-stink	stank	stunk	вонять
-strike	struck	struck	бастовать, ударять
-string	strung	strung	нанизать, натянуть
-strive	strove (strived)	striven (strived)	пытаться, стремиться
-swear	swore	sworn	клясться, ругаться
-sweep	swept	swept	подметать
-swell	swelled	swollen (swelled)	опухать
-swim	swam	swum	плавать
-swing	swung	swung	качать
-take	took	taken	брать
-teach	taught	taught	обучать
-tear	tore	torn	рвать
-tell	told	told	рассказывать
-think	thought	thought	думать
-thrive	thrived (throve)	thrived	преуспевать, процветать
-throw	threw	thrown	бросать
-thrust	thrust	thrust	толкнуть, сунуть
-understand	understood	understood	понимать
-upset	upset	upset	опрокинуть, расстроиться
-wake	woke	woken	будить
-wear	wore	worn	носить (одежду)
-weave	wove	woven	ткать
-wed	wedded (wed)	wedded (wed)	жениться
-weep	wept	wept	плакать, запотевать
-win	won	won	побеждать
-wind	wound	wound	заводить часы, наматывать
-wring	wrung	wrung	скручивать, крутить
-write	wrote	written	писать
-            </pre>
-
-
-            <pre>
-                identify — устанавливать, определять
-ignore — игнорировать, пренебрегать, не придавать значения
-imagine — воображать, представлять себе
-impress — производить впечатление, поражать;
-improve — улучшаться; совершенствоваться; поправляться, налаживаться
-include — заключать, включать в себя, содержать в себе
-increase — возрастать, увеличиваться; расти; усиливаться
-influence — оказывать влияние, влиять, воздействовать
-inform — сообщать, информировать, уведомлять
-inject — впрыскивать, вводить, впускать
-injure — ранить, ушибить
-instruct — инструктировать, учить, обучать, наставлять
-intend — намереваться
-interest — интересовать; заинтересовать; вызывать интерес; привлекать внимание; вовлекать
-interfere — пересекаться, скрещиваться (в пространстве)
-interrupt — обрывать, прерывать, внезапно прекращать
-introduce — знакомить, представлять
-invent — изобретать, создавать, выдвигать что-л. новое
-invite — приглашать, звать
-irritate — возмущать, раздражать, сердить
-itch — зудеть, чесаться, испытывать зуд
-jail — заключать в тюрьму
-jam — зажимать, сжимать, блокировать; давить, жать
-jog — слегка толкать, подталкивать, подталкивать локтем; трясти
-join — соединять, объединять, связывать, скреплять
-joke — шутить (над кем-л., чем-л.); острить, говорить остроты
-judge — судить, выносить приговор
-juggle — надувать, обманывать, вводить в заблуждение, дезориентировать
-jump — прыгать, скакать
-kick — ударять ногой, пинать; лягать
-kill — убивать, лишать жизни
-kiss — целовать, поцеловать
-kneel — стоять на коленях
-knit — вязать
-knock — стучать, барабанить
-knot — завязывать узел; связывать узлом; скреплять узлом, запутывать
-label — прикреплять ярлык, этикетку, навешивать бирку
-land — а) высаживаться (на берег); приставать к берегу, причаливать б) высаживать
-last — продолжаться, тянуться, длиться
-laugh — смеяться; рассмеяться
-launch — запускать (спутник, ракету); выпускать (снаряд); катапультировать
-learn — учиться; учить (что-л.); научиться (чему-л.)
-level — равнять, выравнивать
-license — разрешать, давать разрешение (на что-л.); давать право, патент, привилегию
-lick — лизать; облизывать
-lie — лгать, обманывать
-lighten — светлеть; становиться ярче
-like — любить, нравиться
-list — вносить в список; составлять список; регистрировать
-listen — слушать; выслушивать
-live — жить, существовать, быть живым
-load — грузить, нагружать; грузиться
-lock — запирать ключом, запирать на замок; запирать
-long — очень хотеть, страстно желать (чего-л.) , испытывать потребность (в чём-л.) , стремиться (к чему-л.)
-look — смотреть, глядеть; осматривать; следить
-love — любить
-man — размещать, рассаживать, расставлять людей
-manage — руководить, управлять, заведовать; стоять во главе
-march — граничить, иметь общую границу с (кем-л.)
-mark — отмечать, обозначать, размечать; ставить метки, вехи; очерчивать границы
-marry — жениться (на ком-л.); выходить замуж (за кого-л.); обручаться, бракосочетаться, вступать в брак (с кем-л.)
-match — состязаться на равных с (кем-л.); быть достойным соперником, противником (кому-л.); мериться (силами) (с кем-л.)
-mate — делать мат, ставить мат (в шахматах)
-matter — иметь значение; значить
-measure — измерять, мерить; отмерять, отсчитывать
-meddle — заниматься, интересоваться чем-л.; вмешиваться, совать свой нос
-melt — плавиться, растапливаться, растворяться
-memorize — запоминать; выучивать, заучивать наизусть
-mend — чинить, ремонтировать
-milk — доить
-mine — извлекать, выкапывать
-miss — потерпеть неудачу, не достичь желаемого результата
-mix — мешать, смешивать, перемешивать
-moan — стонать
-mourn — скорбеть, оплакивать; горевать, печалиться
-move — двигать, передвигать, перемещать; изменять положение (чего-л.)
-muddle — мутить, взбалтывать; перемешивать
-mug — снабжать пивом или спиртными напитками; ставить (кому-л.) выпивку; напиваться пьяным
-multiply — увеличивать, умножать (количество чего-л.)
-murder — убивать, совершать зверское убийство
-            </pre>
-            <br>
-
-            <br>
-
-        <p> Я открою</p>
-
-        <p>Я открыл</p>
-
-        <p>Ты открываешь?</p>
-
-        <p>Она открывает?</p>
-
-        <p>Ты открыл?</p>
-
-        <p>Ты откроешь?</p>
-
-        <p>Я не буду открывать</p>
-
-        <p>Мы не открывали</p>
-
-        <p>Я закрываю</p>
-
-        <p>Я закрываю</p>
-
-        <p>Я закрою</p>
-
-        <p>Ты закроешь?</p>
-
-        <p>Я не закрою</p>
-
-        <p>Я закрыл</p>
-
-        <p>Она не закрыла</p>
-
-        <p>А ты закрыл?</p>
-
-        <p> Я не закрываю</p>
-
-        <p>Он не закрывает</p>
-
-        <p>Я спрошу</p>
-
-        <p>Ты спрашивал?</p>
-
-        <p> Еще один новый глагол:</p>
-
-        <p> Я не буду отвечать</p>
-
-        <p>Ты будешь отвечать?</p>
-
-        <p>Я не буду отвечать</p>
-
-        <p>Он не отвечает</p>
-
-        <p>Мы дали</p>
-
-        <p>Вы дадите?</p>
-
-        <p>Они не дадут</p>
-
-        <p>Еще один неправильный глагол:</p>
-
-        <p>Я возьму</p>
-
-        <p>Я взял</p>
-
-        <p>Ты возьмёшь?</p>
-
-        <p>Я не возьму</p>
-
-        <p>Я помогу</p>
-
-        <p>Он не помог</p>
-
-        <p>Но он поможет</p>
-
-        <p>Ты поможешь?</p>
-
-        <p>Новый правильный глагол:</p>
-
-        <p>Я надеюсь</p>
-
-        <p>Он надеется</p>
-
-        <p>Ты надеешься?</p>
-
-        <p>Я не надеялся, но буду надеяться</p>
-
-        <p>Мы поговорим</p>
-
-        <p>Вы поговорите?</p>
-
-        <p>Мы поговорили (уже)</p>
-
-        <p>Они не говорили</p>
-
-        <p>Вы путешествовали?</p>
-
-        <p>Вы будете путешествовать?</p>
-
-        <p>Я не путешествовал, но буду</p>
-
-        <p>путешествовать</p>
-
-        <p>Он путешествует?</p>
-
-        <p>Он — путешествует</p>
-
-        <p>Я вижу тебя</p>
-
-        <p>Ты видишь меня</p>
-
-        <p>Он видит её</p>
-
-        <p>Она не видит его</p>
-
-        <p>Мы видели их</p>
-
-        <p>Они не видели нас</p>
-
-        <p>Я знаю тебя</p>
-
-        <p>Но ты не знаешь меня</p>
-
-        <p>Он знает её</p>
-
-        <p>Она не знала его</p>
-
-        <p>Но она узнает его</p>
-
-        <p>Где ты живешь?</p>
-
-        <p>Где он работает?</p>
-
-        <p> Куда она пошла?</p>
-
-        <p>Как ты работаешь?</p>
-
-        <p>Как она работает?</p>
-
-        <p>Где ты путешествовал?</p>
-
-        <p>Когда ты будешь путешествовать?</p>
-
-        <p>Где они путешествуют?</p>
-
-        <p>Я приду к тебе</p>
-
-        <p>Когда ты придешь ко мне?</p>
-
-        <p>Когда ты поедешь в Лондон?</p>
-
-        <p>Когда ты приедешь из Лондона?</p>
-
-        <p>Где ты живешь и работаешь?</p>
-
-        <p>Я поговорю с тобой</p>
-
-        <p>Я тебе помогу</p>
-
-        <p>Он не помог мне</p>
-
-        <p>Она пришла ко мне</p>
-
-        <p>Когда ты пойдешь к нему?</p>
-
-        <p>Я видела его вчера</p>
-
-        <p>Когда ты видел её?</p>
-
-        <p>Они пришли ко мне</p>
-
-        <p>Я буду в Москве</p>
-
-        <p>Я был в Индии</p>
-
-        <p>Она здесь</p>
-
-        <p>Ты здесь?</p>
-
-        <p>Она здесь?</p>
-
-        <p>Он был здесь?</p>
-
-        <p>Они были с Вами?</p>
-
-        <p>Ты будешь здесь?</p>
-
-        <p>Они были с вами?</p>
-
-        <p>Когда ты пойдешь туда?</p>
-
-        <p>Он мой друг</p>
-
-        <p>Я буду твоим другом</p>
-
-        <p>Я не хочу быть твоим другом</p>
-
-        <p>Я не буду твоим другом</p>
-
-        <p>Может быть я захочу быть твоим другом</p>
-
-        <p>Почему ты не хочешь быть моим другом?</p>
-
-        <p>Я поцелую тебя если ты захочешь, но позже</p>
-
-        <p>Лучше поздно, чем никогда</p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-        <p></p>
-
-
-    </div>
-</template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -328,7 +328,7 @@ ScoringQuestionSchema = new SimpleSchema({
         type: [Object],
         optional: false,
         minCount: 1,
-        maxCount: 5
+        maxCount: 100
     },
 
     'answers.$.text': {
